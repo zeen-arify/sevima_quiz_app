@@ -22,6 +22,7 @@ class _QuizPageState extends State<QuizPage> {
 
   List<String> subjects = ['Biologi', 'Informatika', 'Sejarah'];
   List<String> difficulties = ['Mudah', 'Sedang', 'Sulit'];
+  List<String> generatedQuestions = [];
 
   void generateQuestion() async {
     final requestBody = jsonEncode({
@@ -31,7 +32,7 @@ class _QuizPageState extends State<QuizPage> {
         {
           "role": "user",
           "content":
-              "Buatkan satu pertanyaan tentang $selectedSubject dengan tingkat kesulitan yang $selectedDifficulty."
+              "Berikan Satu pertanyaan tentang $selectedSubject dengan tingkat kesulitan yang $selectedDifficulty."
         }
       ]
     });
@@ -47,13 +48,21 @@ class _QuizPageState extends State<QuizPage> {
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      setState(() {
-        question = data['choices'][0]['message']['content'].toString();
-        isQuestionGenerated = true;
-        answer = '';
-        correction = '';
-        isAnswerSubmitted = false; // Reset status isAnswerSubmitted
-      });
+      final newQuestion = data['choices'][0]['message']['content'].toString();
+
+      // Check if the new question already exists
+      if (generatedQuestions.contains(newQuestion)) {
+        generateQuestion(); // Generate a new question
+      } else {
+        setState(() {
+          question = newQuestion;
+          isQuestionGenerated = true;
+          answer = '';
+          correction = '';
+          isAnswerSubmitted = false; // Reset status isAnswerSubmitted
+          generatedQuestions.add(newQuestion); // Add new question to the list
+        });
+      }
     } else {
       setState(() {
         question = 'Gagal membuat pertanyaan, silakan coba lagi!';
@@ -66,8 +75,11 @@ class _QuizPageState extends State<QuizPage> {
       "model": "gpt-3.5-turbo",
       "messages": [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Apakah jawaban A: $answer"},
-        {"role": "user", "content": "bisa menjawab pertanyaan Q: $question"},
+        {
+          "role": "user",
+          "content": "Benar atau Salah pertanyaan \"$question\""
+        },
+        {"role": "user", "content": "dijawab dengan jawaban \"$answer\""},
       ]
     });
 
