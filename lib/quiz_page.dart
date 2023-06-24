@@ -89,110 +89,111 @@ class _QuizPageState extends State<QuizPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Sevima Quiz App'),
-      ),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Pilih Materi:',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            SizedBox(height: 8.0),
-            Wrap(
-              spacing: 8.0,
-              children: subjects.map((subject) {
-                return ChoiceChip(
-                  label: Text(subject),
-                  selected: selectedSubject == subject,
-                  onSelected: (isSelected) {
-                    setState(() {
-                      selectedSubject = isSelected ? subject : '';
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
-              'Pilih Kategori Pertanyaan:',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            SizedBox(height: 8.0),
-            Wrap(
-              spacing: 8.0,
-              children: difficulties.map((difficulty) {
-                return ChoiceChip(
-                  label: Text(difficulty),
-                  selected: selectedDifficulty == difficulty,
-                  onSelected: (isSelected) {
-                    setState(() {
-                      selectedDifficulty = isSelected ? difficulty : '';
-                    });
-                  },
-                );
-              }).toList(),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            ElevatedButton(
-              onPressed:
-                  (selectedSubject.isNotEmpty && selectedDifficulty.isNotEmpty)
+        appBar: AppBar(
+          title: Text('Sevima Quiz App'),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Pilih Materi:',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(height: 8.0),
+                Wrap(
+                  spacing: 8.0,
+                  children: subjects.map((subject) {
+                    return ChoiceChip(
+                      label: Text(subject),
+                      selected: selectedSubject == subject,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          selectedSubject = isSelected ? subject : '';
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  'Pilih Kategori Pertanyaan:',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(height: 8.0),
+                Wrap(
+                  spacing: 8.0,
+                  children: difficulties.map((difficulty) {
+                    return ChoiceChip(
+                      label: Text(difficulty),
+                      selected: selectedDifficulty == difficulty,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          selectedDifficulty = isSelected ? difficulty : '';
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                ElevatedButton(
+                  onPressed: (selectedSubject.isNotEmpty &&
+                          selectedDifficulty.isNotEmpty)
                       ? generateQuestion
                       : null,
-              child: Text('Buat Pertanyaan'),
+                  child: Text('Buat Pertanyaan'),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  'Jawablah Pertanyaan Berikut:',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text(question),
+                SizedBox(
+                  height: 16.0,
+                ),
+                TextField(
+                  onChanged: (value) {
+                    setState(() {
+                      answer = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Jawaban',
+                  ),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                ElevatedButton(
+                  onPressed: (answer.isNotEmpty) ? submitAnswer : null,
+                  child: Text('Kirim Jawaban'),
+                ),
+                SizedBox(
+                  height: 16.0,
+                ),
+                Text(
+                  'Hasil Koreksi Jawaban:',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                SizedBox(
+                  height: 8.0,
+                ),
+                Text(correction),
+              ],
             ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
-              'Jawablah Pertanyaan Berikut:',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text(question),
-            SizedBox(
-              height: 16.0,
-            ),
-            TextField(
-              onChanged: (value) {
-                setState(() {
-                  answer = value;
-                });
-              },
-              decoration: InputDecoration(
-                labelText: 'Jawaban',
-              ),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            ElevatedButton(
-              onPressed: (answer.isNotEmpty) ? submitAnswer : null,
-              child: Text('Kirim Jawaban'),
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
-              'Hasil Koreksi Jawaban:',
-              style: TextStyle(fontSize: 18.0),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Text(correction),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
