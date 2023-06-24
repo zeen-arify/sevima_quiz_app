@@ -22,17 +22,19 @@ class _QuizPageState extends State<QuizPage> {
   List<String> difficulties = ['Mudah', 'Sedang', 'Sulit'];
 
   void generateQuestion() async {
-    final requestBody = jsonEncode({
-      "model": "gpt-3.5-turbo",
-      "messages": [
-        {"role": "system", "content": "You are a helpful assistant."},
-        {
-          "role": "user",
-          "content":
-              "Buatkan satu pertanyaan tentang $selectedSubject dengan tingkat kesulitan yang $selectedDifficulty."
-        }
-      ]
-    });
+    final requestBody = jsonEncode(
+      {
+        "model": "gpt-3.5-turbo",
+        "messages": [
+          {"role": "system", "content": "You are a helpful assistant."},
+          {
+            "role": "user",
+            "content":
+                "Buatkan satu pertanyaan tentang $selectedSubject dengan tingkat kesulitan yang $selectedDifficulty."
+          }
+        ]
+      },
+    );
 
     final response = await http.post(
       Uri.parse(apiEndpoint),
@@ -60,8 +62,8 @@ class _QuizPageState extends State<QuizPage> {
       "model": "gpt-3.5-turbo",
       "messages": [
         {"role": "system", "content": "You are a helpful assistant."},
-        {"role": "user", "content": "Q: $question"},
-        {"role": "user", "content": "A: $answer"}
+        {"role": "user", "content": "Apakah jawaban A: $answer"},
+        {"role": "user", "content": "bisa menjawab pertanyaan Q: $question"},
       ]
     });
 
