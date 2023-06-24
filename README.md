@@ -1,6 +1,8 @@
 # sevima_quiz_app
 
-A new Flutter project.
+Aplikasi Sevima Quiz adalah sebuah aplikasi Flutter yang memungkinkan pengguna untuk menguji pengetahuan mereka dengan menjawab pertanyaan-pertanyaan dengan tingkat kesulitan yang ditentukan oleh pengguna. Aplikasi ini menggunakan model bahasa GPT-3.5 Turbo untuk menghasilkan pertanyaan-pertanyaan yang relevan dengan materi yang dipilih, kemudian pengguna dapat menjawab pertanyaan tersebut, dan aplikasi akan memberikan koreksi jawaban yang diberikan.
+
+
 
 ## Getting Started
 
