@@ -18,6 +18,7 @@ class _QuizPageState extends State<QuizPage> {
   String answer = '';
   String correction = '';
   bool isQuestionGenerated = false;
+  bool isAnswerSubmitted = false;
 
   List<String> subjects = ['Biologi', 'Informatika', 'Sejarah'];
   List<String> difficulties = ['Mudah', 'Sedang', 'Sulit'];
@@ -51,6 +52,7 @@ class _QuizPageState extends State<QuizPage> {
         isQuestionGenerated = true;
         answer = '';
         correction = '';
+        isAnswerSubmitted = false; // Reset status isAnswerSubmitted
       });
     } else {
       setState(() {
@@ -82,6 +84,8 @@ class _QuizPageState extends State<QuizPage> {
       final data = jsonDecode(response.body);
       setState(() {
         correction = data['choices'][0]['message']['content'].toString();
+        isAnswerSubmitted =
+            true; // Set isAnswerSubmitted menjadi true setelah jawaban dikirim
       });
     } else {
       setState(() {
@@ -98,6 +102,7 @@ class _QuizPageState extends State<QuizPage> {
       isQuestionGenerated = false;
       selectedSubject = '';
       selectedDifficulty = '';
+      isAnswerSubmitted = false;
     });
   }
 
@@ -107,6 +112,7 @@ class _QuizPageState extends State<QuizPage> {
       answer = '';
       correction = '';
       isQuestionGenerated = false;
+      isAnswerSubmitted = false;
     });
     generateQuestion();
   }
@@ -201,7 +207,10 @@ class _QuizPageState extends State<QuizPage> {
                   height: 16.0,
                 ),
                 ElevatedButton(
-                  onPressed: (answer.isNotEmpty) ? submitAnswer : null,
+                  onPressed: (answer.isNotEmpty &&
+                          !isAnswerSubmitted) // Hanya izinkan jika jawaban tidak kosong dan belum dikirim sebelumnya
+                      ? submitAnswer
+                      : null,
                   child: Text('Cek Jawaban'),
                 ),
               ],
