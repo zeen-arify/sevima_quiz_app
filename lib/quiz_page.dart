@@ -1,9 +1,10 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-const apiKey = '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';
-const apiEndpoint = 'https://api.openai.com/v1/chat/completions';
+String apiKey = dotenv.env['API_KEY'] ?? '';
+String apiEndpoint = dotenv.env['API_ENDPOINT'] ?? '';
 
 class QuizPage extends StatefulWidget {
   @override
