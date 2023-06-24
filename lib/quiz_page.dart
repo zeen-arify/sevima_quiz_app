@@ -274,7 +274,7 @@ class _QuizPageState extends State<QuizPage> {
                   children: [
                     ElevatedButton(
                       onPressed: resetQuestion,
-                      child: Text('Ganti Materi'),
+                      child: Text('Reset'),
                     ),
                     ElevatedButton(
                       onPressed: generateNewQuestion,
