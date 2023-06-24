@@ -19,8 +19,10 @@ class _QuizPageState extends State<QuizPage> {
   String correction = '';
   bool isQuestionGenerated = false;
   bool isAnswerSubmitted = false;
+  bool isOtherSubjectSelected = false;
+  TextEditingController otherSubjectController = TextEditingController();
 
-  List<String> subjects = ['Biologi', 'Informatika', 'Sejarah'];
+  List<String> subjects = ['Biologi', 'Informatika', 'Sejarah', 'Lainnya'];
   List<String> difficulties = ['Mudah', 'Sedang', 'Sulit'];
   List<String> generatedQuestions = [];
 
@@ -115,6 +117,8 @@ class _QuizPageState extends State<QuizPage> {
       selectedSubject = '';
       selectedDifficulty = '';
       isAnswerSubmitted = false;
+      isOtherSubjectSelected = false;
+      otherSubjectController.text = '';
     });
   }
 
@@ -149,17 +153,44 @@ class _QuizPageState extends State<QuizPage> {
               Wrap(
                 spacing: 8.0,
                 children: subjects.map((subject) {
-                  return ChoiceChip(
-                    label: Text(subject),
-                    selected: selectedSubject == subject,
-                    onSelected: (isSelected) {
-                      setState(() {
-                        selectedSubject = isSelected ? subject : '';
-                      });
-                    },
-                  );
+                  if (subject == 'Lainnya') {
+                    return ChoiceChip(
+                      label: Text(subject),
+                      selected: isOtherSubjectSelected,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          isOtherSubjectSelected = isSelected;
+                          selectedSubject = isSelected ? '' : subject;
+                        });
+                      },
+                    );
+                  } else {
+                    return ChoiceChip(
+                      label: Text(subject),
+                      selected: selectedSubject == subject,
+                      onSelected: (isSelected) {
+                        setState(() {
+                          selectedSubject = isSelected ? subject : '';
+                        });
+                      },
+                    );
+                  }
                 }).toList(),
               ),
+              if (isOtherSubjectSelected) ...[
+                SizedBox(height: 8.0),
+                TextField(
+                  controller: otherSubjectController,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedSubject = value;
+                    });
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Materi Lainnya',
+                  ),
+                ),
+              ],
               SizedBox(
                 height: 16.0,
               ),
